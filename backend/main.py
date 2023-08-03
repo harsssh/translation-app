@@ -19,7 +19,7 @@ def translate():
     text = request.args.get('text')
 
     # Perform the translation
-    translation = ja2en.translate(text)
+    translation = ja2en.translate(text, beam=10)
 
     # Return the result as JSON
     return jsonify({'translation': translation})
