@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 from translator import Translator
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Load the trained model
 ja2en = Translator(

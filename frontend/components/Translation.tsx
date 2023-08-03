@@ -18,13 +18,14 @@ const Translation = () => {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    setTranslation('');
     if (timer.current !== null) {
       clearTimeout(timer.current);
     }
     if (text) {
       timer.current = setTimeout(() => {
         handleTranslate(text);
-      }, 1000); // ユーザーが入力を停止してから1秒後に翻訳を開始
+      }, 1000);
     }
     return () => {
       if (timer.current !== null) {
@@ -35,16 +36,11 @@ const Translation = () => {
 
   const handleTranslate = async (text: string) => {
     setLoading(true);
-    // const result = await fetch('/api/translate', {
-    //     method: 'POST',
-    //     body: JSON.stringify({ text }),
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    // });
-    // const data = await result.json();
-    // setTranslation(data.translation);
-    setTranslation(text);
+    const response = await fetch(
+      `http://localhost:5000/translate?text=${encodeURIComponent(text)}`,
+    );
+    const data = await response.json();
+    setTranslation(data.translation);
     setLoading(false);
   };
 
